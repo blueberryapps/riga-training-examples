@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Step 0 – Excercise 1</title>
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script type="text/babel">
+
+    class Calculator extends React.Component {
+      state = {
+    		amount: 300,
+    		term: 30
+    	}
+
+      render() {
+        return (
+          <div>
+            <AmountSelect onChange={this.changeAmount.bind(this)}
+              value={this.state.amount} />
+            <TermSelect onChange={this.changeTerm.bind(this)}
+              value={this.state.term} />
+            <Offer amount={this.state.amount} term={this.state.term} />
+          </div>
+        );
+      }
+
+      changeAmount(event) {
+    		this.setState({amount: event.target.value})
+    	}
+    	changeTerm(event) {
+    		this.setState({term: event.target.value})
+    	}
+    }
+
+    class AmountSelect extends React.Component {
+    	render() {
+    		return (
+    			<div>
+    				<div>Amount:</div>
+    				<input type="number"
+    					onChange={this.props.onChange}
+    					value={this.props.value} />
+    			</div>
+    		);
+    	}
+    }
+
+    class TermSelect extends React.Component {
+    	render() {
+    		return (
+    			<div>
+    				<div>Term:</div>
+    				<input type="number"
+    					onChange={this.props.onChange}
+    					value={this.props.value} />
+    			</div>
+    		);
+    	}
+    }
+
+    class Offer extends React.Component {
+    	render() {
+        var amount = parseInt(this.props.amount);
+    		var term = parseInt(this.props.term);
+    		var interestRate = 0.5;
+    		var commission = 0.1;
+    		var interest = amount * interestRate * (term / 365.0);
+    		var totalAmount = amount + interest + (commission * amount);
+
+    		return (
+    			<div>
+    				<div>
+    					<strong>Amount:</strong>
+    					{amount}
+    				</div>
+            <div>
+    					<strong>Term:</strong>
+    					{term}
+    				</div>
+            <div>
+              <strong>Interest rate:</strong>
+              {interestRate * 100}%
+            </div>
+            <div>
+              <strong>Commission:</strong>
+              {commission * 100}%
+            </div>
+            <div>
+              <strong>Interest:</strong>
+              {interest}
+            </div>
+            <div>
+              <strong>Total Amount:</strong>
+              {totalAmount}
+            </div>
+    			</div>
+    		);
+    	}
+    }
+
+
+
+
+    /* We mount the Calculator component and render it in #root */
+    /* You shouldn't need to change this code ;-) */
+    ReactDOM.render(
+      <Calculator />,
+      document.getElementById('root')
+    );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
