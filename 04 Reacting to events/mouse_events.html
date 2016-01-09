@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/babel">
+      const wrapper = document.getElementById('wrapper');
+      const parent = document.getElementById('parent');
+      const item1 = document.getElementById('item-1');
+      const item2 = document.getElementById('item-2');
+
+      wrapper.addEventListener('mouseover', () => console.log('wrapper mouseover'))
+      wrapper.addEventListener('mouseout', () => console.log('wrapper mouseout'))
+      wrapper.addEventListener('mouseenter', () => console.log('wrapper mouseenter'))
+      wrapper.addEventListener('mouseleave', () => console.log('wrapper mouseleave'))
+
+      parent.addEventListener('mouseover', () => console.log('parent mouseover'))
+      parent.addEventListener('mouseout', () => console.log('parent mouseout'))
+      parent.addEventListener('mouseenter', () => console.log('parent mouseenter'))
+      parent.addEventListener('mouseleave', () => console.log('parent mouseleave'))
+
+      item1.addEventListener('mouseover', () => console.log('item1 mouseover'))
+      item1.addEventListener('mouseout', () => console.log('item1 mouseout'))
+      item1.addEventListener('mouseenter', () => console.log('item1 mouseenter'))
+      item1.addEventListener('mouseleave', () => console.log('item1 mouseleave'))
+    </script>
+  </head>
+  <body>
+    <div id="wrapper" style="background-color: firebrick">
+      <div id="parent" style="background-color: green">
+        <div id="item-1" style="background-color: blue">Item 1</div>
+        <div id="item-2" style="background-color: magenta">Item 2</div>
+      </div>
+      <p style="background-color: navy; color: white">Text</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script src="https://npmcdn.com/react-router@2.0.0-rc4/umd/ReactRouter.min.js" charset="utf-8"></script>
+    <script type="text/babel">
+      const {Route, Router, hashHistory} = ReactRouter;
+
+      class MyComponent extends React.Component {
+
+        static contextTypes = {
+          router: React.PropTypes.object
+        }
+
+        render() {
+          return (
+            <div>
+              <h2>Example usage of this.context.router for navigation</h2>
+              <button onClick={() => this.routerPushPathname()}>context.router.push(pathname)</button>
+              <button onClick={() => this.routerPushLocation()}>context.router.push(location)</button>
+
+              <h2>Example of naviagtion outside of component</h2>
+              <button onClick={navigateToTimestamp}>Navigate to current timestamp</button>
+
+              <h2>this.props</h2>
+              <pre>
+                {JSON.stringify(this.props, null, 2)}
+              </pre>
+
+              <h2>this.context</h2>
+              <pre>
+                {JSON.stringify(this.context, null, 2)}
+              </pre>
+
+            </div>
+          );
+        }
+
+        routerPushPathname() {
+          this.context.router.push('/1234/optional-segment/');
+        }
+
+        routerPushLocation() {
+          this.context.router.push({
+            pathname: '/1234/optional-segment/',
+            query: {param: 'foo', variant: 'bar'}
+          });
+        }
+      }
+
+      function navigateToTimestamp() {
+        setTimeout(() =>
+          hashHistory.pushState(null, '/' + Date.now())
+        , 1000);
+      }
+
+      ReactDOM.render(
+        <Router history={hashHistory}>
+          <Route path="/(:someId)(/optional-segment)" component={MyComponent} />
+        </Router>,
+        document.getElementById('root')
+      );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script src="https://npmcdn.com/react-router@2.0.0-rc4/umd/ReactRouter.min.js" charset="utf-8"></script>
+    <script type="text/babel">
+      const {Route, Router, hashHistory, IndexRoute, Link} = ReactRouter;
+
+      class App extends React.Component {
+        render() {
+          return (
+            <div style={{backgroundColor: '#CFCFC4', padding: '20px'}}>
+              <h1>Email app</h1>
+              <ul>
+                <li><Link to="/inbox">Inbox</Link></li>
+                <li><Link to="/contacts">Contacts</Link></li>
+                <li><Link to="/help">Help</Link></li>
+              </ul>
+
+              <div style={{backgroundColor: '#FDFD96', padding: '10px 20px'}}>
+                {this.props.children}
+              </div>
+            </div>
+          );
+        }
+      }
+
+      class Home extends React.Component {
+        render() {
+          return (
+            <div>
+              <h2>Welcome to our awesome app</h2>
+            </div>
+          );
+        }
+      }
+
+      class Inbox extends React.Component {
+        render() {
+          return (
+            <div>
+              <h2>Inbox</h2>
+              <div style={{backgroundColor: '#779ECB', padding: '10px 20px'}}>
+                {this.props.children}
+              </div>
+            </div>
+          );
+        }
+      }
+
+      class EmailList extends React.Component {
+        render() {
+          return (
+            <div>
+              <h3>Email List</h3>
+              <ul>
+                <li><Link to="/inbox/message/1234">Message 1234</Link></li>
+                <li><Link to="/inbox/message/7890">Message 7890</Link></li>
+              </ul>
+            </div>
+          );
+        }
+      }
+
+      class EmailDetail extends React.Component {
+        render() {
+          return (
+            <div>
+              <Link to="/inbox/">back to list</Link>
+              <h2>Message #{this.props.params.id}</h2>
+            </div>
+          );
+        }
+      }
+
+      class Contacts extends React.Component {
+        render() {
+          return (
+            <div>
+              <h2>Your contacts</h2>
+              <ul>
+                <li>Lukas Voda: lvoda@blueberry.cz</li>
+                <li>Michal Krejci mkrejci@blueberry.cz</li>
+              </ul>
+            </div>
+          );
+        }
+      }
+
+      class Help extends React.Component {
+        render() {
+          return (
+            <div>
+              <h2>Help</h2>
+              This is a very simple application
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(
+        <Router history={hashHistory}>
+          <Route path="/" component={App}>
+            <IndexRoute component={Home} />
+            <Route path="contacts" component={Contacts} />
+            <Route path="help" component={Help} />
+            <Route path="inbox" component={Inbox}>
+              <IndexRoute component={EmailList} />
+              <Route path="message/:id" component={EmailDetail} />
+            </Route>
+          </Route>
+        </Router>,
+        document.getElementById('root')
+      );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

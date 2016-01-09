@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script type="text/babel">
+      class Toggler extends React.Component {
+        state = {visible: true}
+        render() {
+          return (
+            <div>
+              <div>
+                <button
+                  onClick={() => this.setState({visible: !this.state.visible})}
+                >
+                  Toggle visibility
+                </button>
+                <button
+                  onClick={() => this.setState({r: !this.state.r + 1})}
+                >
+                  Re-render
+                </button>
+              </div>
+              {this.state.visible && <Parent />}
+            </div>
+          );
+        }
+      }
+
+      class Parent extends React.Component {
+        render() {
+          return (
+            <div>
+              <h2>Parent</h2>
+              <Child />
+            </div>
+          );
+        }
+
+        componentWillMount() {
+          console.log('Parent WillMount');
+        }
+
+        componentDidMount() {
+          console.log('Parent DidMount');
+        }
+
+        componentWillUnmount() {
+          console.log('Parent WillUnmount');
+        }
+      }
+
+      class Child extends React.Component {
+        render() {
+          return (
+            <div>
+              <h3>Child</h3>
+            </div>
+          );
+        }
+
+        componentWillMount() {
+          console.log('Child  WillMount');
+        }
+
+        componentDidMount() {
+          console.log('Child  DidMount');
+        }
+
+        componentWillUnmount() {
+          console.log('Child  WillUnmount');
+        }
+      }
+
+      ReactDOM.render(
+        <Toggler />,
+        document.getElementById('root')
+      );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

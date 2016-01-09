@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script type="text/babel">
+      class Counter extends React.Component {
+        state = {count: 0}
+        render() {
+          return (
+            <div>
+              <button
+                onClick={() => this.setState({count: this.state.count + 1})}
+              >
+                Change props (increase count)
+              </button>
+              <button
+                onClick={() => this.setState({countX: this.state.countX + 1})}
+              >
+                Rerender with same props
+              </button>
+
+              <DisplayCounter count={this.state.count} />
+            </div>
+          );
+        }
+      }
+
+      class DisplayCounter extends React.Component {
+        render() {
+          console.log('render')
+          return (
+            <div>
+              Count:
+              <strong> {this.props.count}</strong>
+            </div>
+          );
+        }
+
+        shouldComponentUpdate(nextProps, nextState) {
+          console.log('shouldComponentUpdate', arguments);
+          return true;
+        }
+
+        componentWillUpdate(nextProps, nextState) {
+          console.log('componentWillUpdate', arguments);
+        }
+
+        componentDidUpdate(prevProps, prevState) {
+          console.log('componentDidUpdate', arguments);
+        }
+
+        componentWillReceiveProps(nextProps) {
+          console.log('componentWillReceiveProps', arguments);
+        }
+      }
+
+      ReactDOM.render(
+        <Counter />,
+        document.getElementById('root')
+      );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

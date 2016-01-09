@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script type="text/babel">
+      class List extends React.Component {
+        render() {
+          const items = ['Foo', 'Bar', 'Baz'];
+
+          function handleClick(event) {
+            console.log('Event target', event.target)
+            console.log('Event currentTarget', event.currentTarget)
+          }
+
+          return (
+            <ul>
+              {items.map(item =>
+                <li onClick={handleClick} key={item}>
+                  <em style={{display: 'block'}}>Container {item}</em>
+                  <strong>Content: {item}</strong>
+                </li>
+              )}
+            </ul>
+          );
+        }
+      }
+
+      ReactDOM.render(
+        <List />,
+        document.getElementById('root')
+      );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

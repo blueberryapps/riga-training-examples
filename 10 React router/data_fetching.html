@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script src="https://npmcdn.com/react-router@2.0.0-rc4/umd/ReactRouter.min.js" charset="utf-8"></script>
+    <script type="text/babel">
+      const {Route, Router, hashHistory, Link} = ReactRouter;
+
+      class LoanList extends React.Component {
+        render() {
+          const loanNumbers = [123, 456, 789]
+          return (
+            <div>
+              <ul>
+                {loanNumbers.map(loanNumber =>
+                  <li key={loanNumber}>
+                    <Link to={`/loan/${loanNumber}`}>Loan {loanNumber}</Link>
+                  </li>
+                )}
+              </ul>
+              {this.props.children}
+            </div>
+          );
+        }
+      }
+
+      class LoanPage extends React.Component {
+        state = {loan: null}
+
+        componentDidMount() {
+          this.fetchLoan(this.props.params.loanNumber);
+        }
+
+        componentDidUpdate(prevProps) {
+          const oldNumber = prevProps.params.loanNumber;
+          const newNumber = this.props.params.loanNumber;
+
+          if (oldNumber !== newNumber)
+            this.fetchLoan(newNumber)
+        }
+
+        fetchLoan(loanNumber) {
+          if (this.state.loan) this.setState({loan: null});
+
+          /* simulate async action be setTimeout */
+          setTimeout(() => {
+            const amount = Math.random() * 1000;
+            const repayAmount = amount * (1 + Math.random() * 0.5);
+            this.setState({
+              loan: {number: loanNumber, amount, repayAmount}
+            })
+          }, 3000);
+        }
+
+        render() {
+          return (
+            <div>
+              {this.state.loan
+                ? <Loan {...this.state.loan} />
+                : <strong>Loading data...</strong>}
+            </div>
+          );
+        }
+      }
+
+      class Loan extends React.Component {
+        render() {
+          return (
+            <div>
+              <h2>Loan #{this.props.number}</h2>
+              <dl>
+                <dt>Amount</dt>
+                <dd>{this.props.amount}</dd>
+
+                <dt>Repay amount</dt>
+                <dd>{this.props.repayAmount}</dd>
+              </dl>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(
+        <Router history={hashHistory}>
+          <Route path="/" component={LoanList}>
+            <Route path="loan/:loanNumber" component={LoanPage} />
+          </Route>
+        </Router>,
+        document.getElementById('root')
+      );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

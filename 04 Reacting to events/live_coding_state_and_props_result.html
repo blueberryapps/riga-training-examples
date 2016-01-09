@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Reacting to events – live coding</title>
+    <link style="">
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script type="text/babel">
+
+      class Registration extends React.Component {
+        state = {}
+
+        render() {
+          return (
+            <form onSubmit={this.handleSubmit.bind(this)}>
+              <h1>Register, {this.state.name || 'dear customer'}</h1>
+
+              <NameField onChange={this.handleFieldChange.bind(this)}
+                value={this.state.name} />
+
+              <CityField onChange={this.handleFieldChange.bind(this)}
+                value={this.state.city} />
+
+              <button type="submit">Register</button>
+            </form>
+          );
+        }
+
+        componentDidMount() {
+          fetch('http://localhost:3001/get')
+            .then(result => result.json()).then(data => this.setState(data));
+        }
+
+        handleFieldChange(fieldName, value) {
+          this.setState({[fieldName]: value});
+        }
+
+        handleSubmit(event) {
+          event.preventDefault();
+
+          fetch('http://localhost:3001/post', {
+            method: 'POST',
+            body: JSON.stringify(this.state)
+          });
+        }
+      }
+
+      class NameField extends React.Component {
+        render() {
+          return (
+            <div>
+              Name:
+              <input value={this.props.value}
+                onChange={this.handleChange.bind(this)} />
+            </div>
+          );
+        }
+
+        handleChange(event) {
+          if (event.target.value.length > 10)
+            return;
+
+          this.props.onChange('name', event.target.value);
+        }
+      }
+
+      class CityField extends React.Component {
+        render() {
+          return(
+            <div>
+              City:
+              <input value={this.props.value}
+                onChange={this.handleChange.bind(this)} />
+            </div>
+          );
+        }
+
+        handleChange(event) {
+          this.props.onChange('city', event.target.value);
+        }
+      }
+
+      ReactDOM.render(
+        <Registration />,
+        document.getElementById('root')
+      );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
