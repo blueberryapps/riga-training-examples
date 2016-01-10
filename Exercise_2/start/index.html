@@ -123,7 +123,7 @@ class Registration extends React.Component {
     event.preventDefault();
 
     post('http://example.com', JSON.stringify(this.state)).then(() => {
-      alert('Thanks, your loan application will be processed.')
+      alert('Thanks, your loan application will be processed.');
     })
   }
 }
@@ -148,9 +148,12 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-function post() {
+function post(url, data) {
   /* Simulation of async action, wrapped as a Promise */
-  return new Promise(resolve => setTimeout(resolve, 1500));
+  return new Promise(resolve => {
+    console.log('Sent data:', data)
+    setTimeout(resolve, 1500);
+  });
 }
 
 
