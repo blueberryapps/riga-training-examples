@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Reacting to events – live coding</title>
+    <link style="">
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script src="./calculator_min.js" charset="utf-8"></script>
+    <script type="text/babel">
+
+      class Registration extends React.Component {
+        state = {}
+        fields = ['firstName', 'lastName', 'city', 'street', 'personalId']
+
+        render() {
+          return (
+            <form onSubmit={this.handleSubmit.bind(this)}>
+              <h1>Registration</h1>
+
+              {fields.map(field =>
+                <input onChange={this.handleFieldChange.bind(this, field)}
+                value={this.state[field]} />
+              )}
+
+              <button type="submit">Register</button>
+            </form>
+          );
+        }
+
+        handleFieldChange(fieldName, value) {
+          this.setState({[fieldName]: value});
+        }
+
+        handleSubmit(event) {
+          event.preventDefault();
+
+          post('http://example.com', JSON.stringify(this.state))
+        }
+      }
+
+      ReactDOM.render(
+        <Registration />,
+        document.getElementById('root')
+      );
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

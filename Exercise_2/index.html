@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link style="">
+    <script src="https://npmcdn.com/react-towel/umd/react-towel.js" charset="utf-8"></script>
+    <script src="https://npmcdn.com/react-router@2.0.0-rc4/umd/ReactRouter.min.js" charset="utf-8"></script>
+    <script src="https://npmcdn.com/redux@3.0.5/dist/redux.min.js" charset="utf-8"></script>
+    <script src="https://npmcdn.com/react-redux@4.0.6/dist/react-redux.js" charset="utf-8"></script>
+    <script src="./calculator_min.js" charset="utf-8"></script>
+    <script type="text/babel">
+
+/*
+  =========
+  | REDUX |
+  |=======|
+*/
+
+function calculatorReducer(state = {}, action) {
+  /* not yet implemented :-( */
+
+  /* no action matches – do not modify the state */
+  return state;
+}
+
+var store = Redux.createStore(Redux.combineReducers({
+  calculatorReducer
+}))
+
+store.subscribe(() => {
+  console.log('Store updated: ', store.getState());
+})
+
+class ComponentExample {
+
+}
+function mapStateToProps(state) {
+  return {calculator: state.calculator};
+}
+
+var ConnectedComponentExample = ReactRedux.connect(ComponentExample)
+
+/*
+  ==============
+  | COMPONENTS |
+  |============|
+*/
+
+class App extends React.Component {
+  /* Implement me here */
+}
+
+class Homepage extends React.Component {
+  state = {
+    calculator: {}
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Loans so good, that you will not even mind the interest</h1>
+        <Calculator
+          onChange={this.handleCalculatorChange.bind(this)}
+          amount={this.state.calculator.amount}
+          term={this.state.calculator.term} />
+      </div>
+    );
+  }
+
+  handleCalculatorChange(values) {
+    this.setState({calculator: values})
+  }
+}
+
+class Registration extends React.Component {
+  state = {}
+
+  render() {
+    var fields = ['firstName', 'lastName', 'city', 'street', 'personalId'];
+
+    return (
+      <form onSubmit={this.handleSubmit.bind(this)}>
+        <h1>Registration</h1>
+
+        <table><tbody>
+          {fields.map(field =>
+            <tr key={field}>
+              <td>{field}:</td>
+              <td>
+                <input
+                  onChange={this.handleFieldChange.bind(this, field)}
+                  value={this.state[field]} />
+              </td>
+            </tr>
+          )}
+        </tbody></table>
+
+        <button type="submit">Register</button>
+      </form>
+    );
+  }
+
+  handleFieldChange(fieldName, event) {
+    var value = event.target.value;
+
+    switch (fieldName) {
+      case 'city':
+        /* no more than 10 chars for city */
+        if (value.length > 10) {
+          return;
+        }
+        this.setState({city: value});
+        break;
+
+      default:
+        this.setState({[fieldName]: value});
+        break;
+    }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    post('http://example.com', JSON.stringify(this.state)).then(() => {
+      alert('Thanks, your loan application will be processed.')
+    })
+  }
+}
+
+class Confirmation extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>This is an offer, you cannot refuse</h1>
+        <button>Confirm</button>
+      </div>
+    )
+  }
+}
+
+
+
+ReactDOM.render(
+  <ReactRedux.Provider store={store}>
+    <Registration />
+  </ReactRedux.Provider>,
+  document.getElementById('root')
+);
+
+function post() {
+  /* Simulation of async action, wrapped as a Promise */
+  return new Promise(resolve => setTimeout(resolve, 1500));
+}
+
+
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
